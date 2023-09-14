@@ -24,8 +24,8 @@ type ProductInterface interface {
 type ProductServiceInterface interface {
 	Get(id string) (ProductInterface, error)
 	Create(name string, price float64) (ProductInterface, error)
-	Enable(product ProductInterface) (bool, error)
-	Disable(product ProductInterface) (bool, error)
+	Enable(product ProductInterface) (ProductInterface, error)
+	Disable(product ProductInterface) (ProductInterface, error)
 }
 
 type ProductReader interface {
@@ -58,7 +58,6 @@ func NewProduct() *Product {
 		ID:     uuid.NewV4().String(),
 		Status: DISABLED,
 	}
-
 	return &product
 }
 
@@ -72,15 +71,13 @@ func (p *Product) IsValid() (bool, error) {
 	}
 
 	if p.Price < 0 {
-		return false, errors.New("the price must be greater than zero")
+		return false, errors.New("the price must be greater or equal zero")
 	}
 
 	_, err := govalidator.ValidateStruct(p)
-
 	if err != nil {
 		return false, err
 	}
-
 	return true, nil
 }
 
@@ -89,7 +86,6 @@ func (p *Product) Enable() error {
 		p.Status = ENABLED
 		return nil
 	}
-
 	return errors.New("the price must be greater than zero to enable the product")
 }
 
@@ -98,7 +94,6 @@ func (p *Product) Disable() error {
 		p.Status = DISABLED
 		return nil
 	}
-
 	return errors.New("the price must be zero in order to have the product disabled")
 }
 
