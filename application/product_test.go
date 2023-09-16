@@ -5,6 +5,7 @@ import (
 
 	"github.com/NatanSiilva/hexagonal_architecture/application"
 	uuid "github.com/satori/go.uuid"
+
 	"github.com/stretchr/testify/require"
 )
 
@@ -58,6 +59,5 @@ func TestProduct_IsValid(t *testing.T) {
 
 	product.Price = -10
 	_, err = product.IsValid()
-	require.Equal(t, "the price must be greater than zero", err.Error())
-
+	require.Equal(t, "the price must be greater or equal zero", err.Error())
 }
