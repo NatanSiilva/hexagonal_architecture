@@ -33,6 +33,36 @@ func (p *ProductDb) Get(id string) (application.ProductInterface, error) {
 	return &product, nil
 }
 
+func (p *ProductDb) GetAll() ([]application.ProductInterface, error) {
+	var products []application.ProductInterface
+
+	stmt, err := p.db.Prepare("select id, name, price, status from products")
+
+	if err != nil {
+		return products, err
+	}
+
+	rows, err := stmt.Query()
+
+	if err != nil {
+		return products, err
+	}
+
+	for rows.Next() {
+		var product application.Product
+
+		err = rows.Scan(&product.ID, &product.Name, &product.Price, &product.Status)
+
+		if err != nil {
+			return products, err
+		}
+
+		products = append(products, &product)
+	}
+
+	return products, nil
+}
+
 func (p *ProductDb) Save(product application.ProductInterface) (application.ProductInterface, error) {
 	var rows int
 
