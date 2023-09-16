@@ -1,1 +1,5 @@
 mockgen -destination=application/mocks/application.go -source=application/product.go
+
+go run main.go cli --help
+go run main.go cli -a=create -n="Product CLI" -p=25.0
+go run main.go cli -a=get --id=d2662e38-d3e6-4632-8b9b-6812eabc9786
