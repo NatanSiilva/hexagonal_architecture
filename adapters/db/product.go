@@ -121,3 +121,13 @@ func (p *ProductDb) update(product application.ProductInterface) (application.Pr
 
 	return product, nil
 }
+
+func (p *ProductDb) Delete(product application.ProductInterface) error {
+	_, err := p.db.Exec("delete from products where id = ?", product.GetID())
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
