@@ -75,3 +75,13 @@ func (s *ProductService) Disable(product ProductInterface) (ProductInterface, er
 
 	return result, nil
 }
+
+func (s *ProductService) Delete(product ProductInterface) error {
+	err := s.Persistence.Delete(product)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

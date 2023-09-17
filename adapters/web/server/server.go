@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/NatanSiilva/hexagonal_architecture/adapters/web/handler"
 	"github.com/NatanSiilva/hexagonal_architecture/application"
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
@@ -24,7 +25,7 @@ func (w Webserver) Serve() {
 	n := negroni.New(
 		negroni.NewLogger(),
 	)
-	// handler.MakeProductHandlers(r, n, w.Service)
+	handler.MakeProductHandlers(r, n, w.Service)
 	http.Handle("/", r)
 
 	server := &http.Server{
